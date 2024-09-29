@@ -76,7 +76,7 @@ $ python tasks.py report # Statistics"""
         # Check if the priority exists and shift tasks down if necessary
         if priority in self.current_items:
             # Shift all tasks starting from the current priority upwards by 1
-            temp_items = {}
+            temp_items = {}  
             for p in sorted(self.current_items.keys(), reverse=True):
                 if p >= priority:
                     temp_items[p + 1] = self.current_items[p]
