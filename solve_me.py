@@ -67,16 +67,29 @@ $ python tasks.py help # Show usage
 $ python tasks.py report # Statistics"""
         )
 # it will take arguments in terminal one is the priority and other is the task
-    def add(self, args): 
+
+    def add(self, args):
         priority = int(args[0])
         tasks = " ".join(args[1:])
         self.read_current()
-        while priority in self.current_items:
-            priority += 1 
+
+        # Check if the priority exists and shift tasks down if necessary
+        if priority in self.current_items:
+            # Shift all tasks starting from the current priority upwards by 1
+            temp_items = {}
+            for p in sorted(self.current_items.keys(), reverse=True):
+                if p >= priority:
+                    temp_items[p + 1] = self.current_items[p]
+                else:
+                    temp_items[p] = self.current_items[p]
+
+            self.current_items = temp_items
+
+        # Assign the new task to the requested priority
         self.current_items[priority] = tasks
         self.write_current()
         print(f"Task: '{tasks}' has been added with priority {priority}")
-
+    # it will take arguments in terminal one is the priority and other is the task
 
     def done(self, args):
         #for done we need to pop it in the current list and update the completed list
